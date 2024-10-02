@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { Book } from './book.entity';
 
@@ -8,11 +8,11 @@ export class BooksController {
 
   @Get()
   async getBooks(): Promise<Book[]> {
-    try {
-      return await this.booksService.getBooks();
-    } catch (error) {
-      console.error('Database error:', error);
-      throw new HttpException({ error: 'Server error' }, 500);
-    }
+    return await this.booksService.getBooks();
+  }
+
+  @Get(':id')
+  async getBookById(@Param('id', ParseIntPipe) id: number): Promise<Book> {
+    return await this.booksService.getBookById(id);
   }
 }
