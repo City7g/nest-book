@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Put,
+  Delete,
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -37,5 +38,10 @@ export class BooksController {
     @Body() updateBookDto: UpdateBookDto,
   ): Promise<Book> {
     return await this.booksService.updateBook(id, updateBookDto);
+  }
+
+  @Delete(':id')
+  async deleteBook(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return await this.booksService.deleteBook(id);
   }
 }

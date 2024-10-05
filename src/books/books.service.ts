@@ -37,4 +37,11 @@ export class BooksService {
     Object.assign(book, updateBookDto);
     return await this.booksRepository.save(book);
   }
+
+  async deleteBook(id: number): Promise<void> {
+    const result = await this.booksRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Book with ID ${id} not found`);
+    }
+  }
 }
